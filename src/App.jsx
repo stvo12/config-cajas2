@@ -8,7 +8,7 @@ import "./App.css";
 const COLORS = [
   { name: "Rojo", value: "#e31d1a" },
   { name: "Negro", value: "#171717" },
-  { name: "Blanco", value: "#f8fafc" },
+  { name: "Blanco", value: "#ffffff" },
   { name: "Celeste", value: "#18a9d3" },
   { name: "Morado", value: "#6e35b8" },
   { name: "Rosado", value: "#f08caf" },
@@ -23,7 +23,7 @@ function colorName(hex) {
 
 export default function App() {
   const [mainColor, setMainColor] = useState("#18a9d3");
-  const [secondaryColor, setSecondaryColor] = useState("#f8fafc");
+  const [secondaryColor, setSecondaryColor] = useState("#ffffff");
   const [quantity, setQuantity] = useState(1);
 
   const [deviceType, setDeviceType] = useState("desktop");
