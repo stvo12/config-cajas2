@@ -171,7 +171,7 @@ a {
 .secondaryPaint {
   z-index: 2;
   opacity: 1;
-  filter: saturate(1.35) contrast(1.12) brightness(1.05);
+  filter: saturate(1.15) contrast(1.05) brightness(1.02);
   mix-blend-mode: normal;
 }
 
@@ -587,4 +587,44 @@ a {
   .quantityBox {
     margin-top: 18px;
   }
+}
+
+/* ========================= */
+/* GENERATED IMAGE / MOBILE SAVE */
+/* ========================= */
+
+.productMockup,
+.previewShell,
+.exportCard {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.generatedImageBox {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #eef0f3;
+  border-radius: 18px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.generatedImageBox p {
+  margin: 0 0 10px;
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.generatedImage {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: 14px;
+  background: white;
+  user-select: auto;
+  -webkit-user-select: auto;
+  -webkit-touch-callout: default;
 }
