@@ -8,14 +8,14 @@ import "./App.css";
 const COLORS = [
   { name: "Rojo", value: "#e31d1a" },
   { name: "Negro", value: "#171717" },
-  { name: "Blanco", value: "#f3efe8" },
+  { name: "Blanco", value: "#f8fafc" },
   { name: "Celeste", value: "#18a9d3" },
   { name: "Morado", value: "#6e35b8" },
   { name: "Rosado", value: "#f08caf" },
 ];
 
-const WHATSAPP_NUMBER = "50200000000";
-const INSTAGRAM_URL = "https://www.instagram.com/tu_usuario/";
+const WHATSAPP_NUMBER = "50241491343";
+const INSTAGRAM_URL = "https://ig.me/m/esteban.smel";
 
 function colorName(hex) {
   return COLORS.find((color) => color.value === hex)?.name ?? hex;
@@ -23,12 +23,14 @@ function colorName(hex) {
 
 export default function App() {
   const [mainColor, setMainColor] = useState("#18a9d3");
-  const [secondaryColor, setSecondaryColor] = useState("#f3efe8");
+  const [secondaryColor, setSecondaryColor] = useState("#f8fafc");
   const [quantity, setQuantity] = useState(1);
 
   const [deviceType, setDeviceType] = useState("desktop");
 
   const previewRef = useRef(null);
+
+  const [generatedImage, setGeneratedImage] = useState(null);
 
   useEffect(() => {
     const detectDevice = () => {
@@ -63,17 +65,57 @@ export default function App() {
     alert("Pedido copiado al portapapeles");
   };
 
-  const downloadImage = async () => {
+  const generateImageData = async () => {
     const dataUrl = await htmlToImage.toPng(previewRef.current, {
       pixelRatio: 3,
       backgroundColor: "#ffffff",
       cacheBust: true,
     });
 
-    const link = document.createElement("a");
-    link.download = `caja-${colorName(mainColor)}-${colorName(secondaryColor)}.png`;
-    link.href = dataUrl;
-    link.click();
+    const fileName = `caja-${colorName(mainColor)}-${colorName(secondaryColor)}.png`;
+
+    const response = await fetch(dataUrl);
+    const blob = await response.blob();
+
+    const file = new File([blob], fileName, {
+      type: "image/png",
+    });
+
+    return { dataUrl, fileName, file };
+  };
+
+  const generatePreviewImage = async () => {
+    try {
+      const { dataUrl } = await generateImageData();
+      setGeneratedImage(dataUrl);
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo generar la imagen. Intenta de nuevo.");
+    }
+  };
+
+  const downloadImage = async () => {
+    try {
+      const { dataUrl, fileName, file } = await generateImageData();
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: "Caja personalizada",
+          text: "Imagen de referencia de mi caja personalizada.",
+          files: [file],
+        });
+
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.download = fileName;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo descargar la imagen. Intenta de nuevo.");
+    }
   };
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText)}`;
@@ -168,8 +210,28 @@ export default function App() {
 
               <button onClick={downloadImage} className="button">
                 <Download size={18} />
-                Descargar imagen
+                Descargar / compartir imagen
               </button>
+
+              <button onClick={generatePreviewImage} className="button">
+                <Download size={18} />
+                Generar imagen para guardar
+              </button>
+
+              {generatedImage && (
+                <div className="generatedImageBox">
+                  <p>
+                    En móvil, mantén presionada la imagen y usa “Guardar en Fotos”
+                    o “Guardar imagen”.
+                  </p>
+
+                  <img
+                    src={generatedImage}
+                    alt="Caja personalizada generada"
+                    className="generatedImage"
+                  />
+                </div>
+              )}
 
               <a
                 href={whatsappUrl}
