@@ -15,7 +15,7 @@ const COLORS = [
 ];
 
 const WHATSAPP_NUMBER = "50241491343";
-const INSTAGRAM_URL = "https://ig.me/m/esteban.smel";
+const INSTAGRAM_URL = "https://ig.me/m/the3dlab_gt";
 
 function colorName(hex) {
   return COLORS.find((color) => color.value === hex)?.name ?? hex;
@@ -63,6 +63,19 @@ export default function App() {
   const copyOrder = async () => {
     await navigator.clipboard.writeText(orderText);
     alert("Pedido copiado al portapapeles");
+  };
+
+  const openInstagram = async () => {
+    try {
+      await navigator.clipboard.writeText(orderText);
+      window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      console.error(error);
+      alert(
+        "No se pudo copiar el pedido. Puedes copiarlo manualmente con el botón de copiar."
+      );
+      window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer");
+    }
   };
 
   const generateImageData = async () => {
@@ -243,15 +256,10 @@ export default function App() {
                 Enviar por WhatsApp
               </a>
 
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="button"
-              >
+              <button onClick={openInstagram} className="button">
                 <Camera size={18} />
-                Abrir Instagram
-              </a>
+                Copiar pedido y abrir Instagram
+              </button>
             </div>
           </div>
         </aside>
