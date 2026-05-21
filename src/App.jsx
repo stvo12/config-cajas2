@@ -221,11 +221,6 @@ export default function App() {
                 Copiar pedido
               </button>
 
-              <button onClick={downloadImage} className="button">
-                <Download size={18} />
-                Descargar / compartir imagen
-              </button>
-
               <button onClick={generatePreviewImage} className="button">
                 <Download size={18} />
                 Generar imagen para guardar
